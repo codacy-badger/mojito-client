@@ -1,0 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap");
+@import "~bootstrap/scss/bootstrap.scss";
+@import '~bootstrap-vue/dist/bootstrap-vue.css';
+
+html, body, .content {
+    background-color: #212529;
+    font-family: "Noto Sans JP", Helvetica, sans-serif;
+}
