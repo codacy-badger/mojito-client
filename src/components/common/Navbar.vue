@@ -6,7 +6,7 @@
             <span class="ml-2 brand-name">Mojito</span>
         </b-navbar-brand>
         <!-- display navigation links -->
-        <b-navbar-nav class="ml-auto">
+        <b-navbar-nav class="ml-auto" v-if="isLoggedIn">
             <b-nav-item id="home-button" href="/home" class="ml-2">
                 <!-- home page -->
                 <b-icon icon="house-door"></b-icon>
@@ -33,12 +33,25 @@
             </b-nav-item>
             <b-tooltip target="logout-button">Log Out</b-tooltip>
         </b-navbar-nav>
+        <b-navbar-nav class="ml-auto" v-else>
+            <b-nav-item id="login-button" href="/login" class="ml-2">
+                <!-- logout -->
+                <b-icon icon="door-closed"></b-icon>
+            </b-nav-item>
+            <b-tooltip target="login-button">Log In</b-tooltip>
+        </b-navbar-nav>
     </b-navbar>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
     name: "navbar",
+
+    computed: {
+        ...mapGetters(["isLoggedIn"]),
+    },
 }
 </script>
 

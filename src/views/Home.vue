@@ -11,7 +11,7 @@ import Vue from "vue";
 
 export default {
     mounted() {
-        // create buttonto add new widgets
+        // create button to add new widgets
         this.addWidget("AddWidget");
     },
 

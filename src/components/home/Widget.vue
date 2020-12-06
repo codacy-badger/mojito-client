@@ -24,7 +24,7 @@ export default {
 }
 
 .widget-content {
-    overflow: scroll;
+    overflow: hidden;
     position: absolute;
     top: 0;
     left: 0;
