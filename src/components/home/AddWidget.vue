@@ -1,8 +1,8 @@
 <template>
     <widget>
         <template v-slot:content>
-            <b-button class="btn add-widget">
-                <b-icon style="width: 75%; height: 75%;" icon="plus"/>
+            <b-button variant="light" class="btn add-widget">
+                <b-icon style="width: 80%; height: 80%;" icon="plus"/>
             </b-button>
         </template>
     </widget>
@@ -30,6 +30,6 @@ export default {
 }
 
 .add-widget:hover {
-    color: white;
+    color: gray;
 }
 </style>

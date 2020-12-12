@@ -12,15 +12,12 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 
 import NotFound from "@/views/NotFound";
 import Home from "@/views/Home";
-import Charts from "@/views/Charts";
-import Bots from "@/views/Bots";
 import Login from "@/views/Login";
 import Logout from "@/views/Logout";
 import Signup from "@/views/Signup";
 import Recover from "@/views/Recover";
 import RecoverReset from "@/views/RecoverReset";
 import Reset from "@/views/Reset";
-import Settings from "@/views/Settings";
 
 // install VueJS plugins
 Vue.use(BootstrapVue);
@@ -90,24 +87,6 @@ const router = new Router({
                     meta: { secure: true },
                 },
             ],
-        },
-        {
-            path: "/charts",
-            name: "charts",
-            component: Charts,
-            meta: { secure: true },
-        },
-        {
-            path: "/bots",
-            name: "bots",
-            component: Bots,
-            meta: { secure: true },
-        },
-        {
-            path: "/settings",
-            name: "settings",
-            component: Settings,
-            meta: { secure: true },
         },
         {
             path: "/not-found",

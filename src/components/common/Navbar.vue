@@ -1,5 +1,5 @@
 <template>
-    <b-navbar variant="dark" class="navbar" type="dark">
+    <b-navbar variant="primary" class="navbar" type="dark">
         <b-navbar-brand href="#">
             <!-- display logo and app name -->
             <img src="@/assets/logo.svg" width="32" height="32"/>
@@ -12,21 +12,6 @@
                 <b-icon icon="house-door"></b-icon>
             </b-nav-item>
             <b-tooltip target="home-button">Home</b-tooltip>
-            <b-nav-item id="charts-button" href="/charts" class="ml-2">
-                <!-- charting tools -->
-                <b-icon icon="graph-up"></b-icon>
-            </b-nav-item>
-            <b-tooltip target="charts-button">Charts</b-tooltip>
-            <b-nav-item id="bots-button" href="/bots" class="ml-2">
-                <!-- manage bots -->
-                <b-icon icon="cpu"></b-icon>
-            </b-nav-item>
-            <b-tooltip target="bots-button">Bots</b-tooltip>
-            <b-nav-item id="settings-button" href="/settings" class="ml-2">
-                <!-- app settings -->
-                <b-icon icon="gear"></b-icon>
-            </b-nav-item>
-            <b-tooltip target="settings-button">Settings</b-tooltip>
             <b-nav-item id="logout-button" href="/logout" class="ml-2">
                 <!-- logout -->
                 <b-icon icon="door-open"></b-icon>

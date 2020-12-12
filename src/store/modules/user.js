@@ -10,8 +10,7 @@ const REFRESH_TOKEN_KEY = "jwt_refresh";
 const state = ({
     accessToken: null,
     refreshToken: null,
-    loginError: null,
-    logoutError: null,
+    error: null,
     loading: false,
 });
 
@@ -21,8 +20,7 @@ const mutations = {
     reset(state) {
         state.accessToken = null;
         state.refreshToken = null;
-        state.loginError = null;
-        state.logoutError = null;
+        state.error = null;
         state.loading = false;
 
         // remove the tokens from local storage
@@ -40,16 +38,10 @@ const mutations = {
         localStorage.setItem(REFRESH_TOKEN_KEY, state.refreshToken);
     },
 
-    // setLoginError sets the error message for the login endpoint.
-    setLoginError(state, payload) {
-        state.loginError = payload?.error ? payload.error :
-            "we were unable to log you in at this time, please try again later";
-    },
-
-    // setLogoutError sets the error message for the logout endpoint.
-    setLogoutError(state, payload) {
-        state.loginError = payload?.error ? payload.error :
-            "we were unable to log you out at this time";
+    // setError sets the error message for the store.
+    setError(state, payload) {
+        state.error = payload?.error ? payload.error :
+            "we were unable to service your request at this time, please try again later";
     },
 
     // setLoading sets the loading flag.
@@ -70,7 +62,12 @@ const getters = {
             state.refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
         }
 
-        return state.accessToken && state.refreshToken;
+        return !!state.accessToken && !!state.refreshToken;
+    },
+
+    // isLoading checks if the user store is currently loading data.
+    isLoading() {
+        return state.loading;
     },
 
     // getAccessToken retrieves the user access token.
@@ -113,7 +110,7 @@ const actions = {
             commit("setAuth", response.data);
             commit("setLoading", false);
         }).catch(error => {
-            commit("setLoginError", error.response?.data);
+            commit("setError", error.response?.data);
             commit("setLoading", false);
         });
 
@@ -124,7 +121,7 @@ const actions = {
     // logout clears the user credentials.
     logout({ commit }) {
 
-        if (this.isLoggedIn) {
+        if (getters.isLoggedIn()) {
 
             // if the user is logged in make a call to the logout endpoint to
             // explicitly invalidate their login credentials on the server
@@ -136,7 +133,7 @@ const actions = {
                 commit("setLoading", false);
             }).catch(error => {
                 commit("reset");
-                commit("setLoginError", error.response?.data);
+                commit("setError", error.response?.data);
                 commit("setLoading", false);
             });
 

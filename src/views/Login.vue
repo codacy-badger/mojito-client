@@ -1,8 +1,7 @@
 <template>
     <b-card
         class="login-form mt-4"
-        bg-variant="dark"
-        text-variant="light">
+        bg-variant="light">
 
         <template slot="header">
             <h2>Log In</h2>
@@ -72,7 +71,7 @@ export default {
 
     computed: {
         ...mapState({
-            error: state => state.user.loginError,
+            error: state => state.user.error,
         }),
     },
 
@@ -92,9 +91,7 @@ export default {
                 password,
             }).then(() => {
                 this.$router.push({ name: "home" });
-            }).catch(error => {
-                console.log(error);
-            });
+            }).catch(() => {});
         },
     },
 }
@@ -105,9 +102,5 @@ export default {
     max-width: 400px;
     margin-left: auto;
     margin-right: auto;
-}
-.error-text {
-    text-transform: capitalize;
-    text-align: center;
 }
 </style>

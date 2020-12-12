@@ -4,7 +4,7 @@
         <!-- use a div to determine the vertical size -->
         <div class="widget">
             <!-- widget content will be displayed in a card -->
-            <b-card class="widget-content" bg-variant="dark" text-variant="light">
+            <b-card class="widget-content" bg-variant="light">
                 <slot name="content"></slot>
             </b-card>
         </div>

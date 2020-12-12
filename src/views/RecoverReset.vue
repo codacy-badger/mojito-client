@@ -1,8 +1,7 @@
 <template>
     <b-card
         class="recover-reset-form mt-4"
-        bg-variant="dark"
-        text-variant="light">
+        bg-variant="light">
 
         <template slot="header">
             <h2>Create a New Password</h2>

@@ -3,6 +3,10 @@
 @import '~bootstrap-vue/dist/bootstrap-vue.css';
 
 html, body, .content {
-    background-color: #212529;
     font-family: "Noto Sans JP", Helvetica, sans-serif;
+}
+
+.error-text {
+    text-transform: capitalize;
+    text-align: center;
 }
