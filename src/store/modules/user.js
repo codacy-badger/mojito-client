@@ -118,6 +118,27 @@ const actions = {
 
     },
 
+    // refresh gets fresh user credentials.
+    refresh({ commit }) {
+
+        commit("setLoading", true);
+
+        let promise = axios.post("/refresh", {
+            refresh_token: getters.getRefreshToken(),
+        });
+
+        promise.then(response => {
+            commit("setAuth", response.data);
+            commit("setLoading", false);
+        }).catch(() => {
+            commit("reset");
+            commit("setLoading", false);
+        });
+
+        return promise;
+
+    },
+
     // logout clears the user credentials.
     logout({ commit }) {
 
@@ -143,6 +164,27 @@ const actions = {
             commit("reset");
 
         }
+
+    },
+
+    // reset changes the logged in user's password.
+    reset({ commit }, {currentPassword, newPassword}) {
+
+        commit("setLoading", true);
+
+        let promise = axios.post("/reset", {
+            current_password: currentPassword,
+            new_password: newPassword,
+        });
+
+        promise.then(() => {
+            commit("setLoading", false);
+        }).catch(error => {
+            commit("setError", error.response?.data);
+            commit("setLoading", false);
+        });
+
+        return promise;
 
     },
 

@@ -1,0 +1,161 @@
+<template>
+    <b-card
+        class="reset-form mt-4"
+        bg-variant="light">
+
+        <template slot="header">
+            <h2>Reset Password</h2>
+        </template>
+
+        <b-form @submit.prevent="onSubmit(currentPassword, newPassword, confirmPassword)">
+            <b-form-group
+                label="Current Password">
+                <b-form-input
+                    v-model="currentPassword"
+                    type="password"
+                    placeholder="Enter your current password"
+                    autocomplete="off"
+                    required/>
+            </b-form-group>
+            <b-form-group
+                label="New Password">
+                <b-form-input
+                    v-model="newPassword"
+                    type="password"
+                    placeholder="Enter your new password"
+                    autocomplete="off"
+                    required/>
+                <password
+                    v-model="newPassword"
+                    :strength-meter-only="true"
+                    @feedback="showFeedback"
+                    @score="setScore"/>
+                <ul v-if="newPassword && newPassword.length > 3 && suggestions && suggestions.length > 0">
+                    <li v-for="suggestion in suggestions" :key="suggestion">
+                        {{suggestion}}
+                    </li>
+                </ul>
+                <b-alert
+                    class="error-text"
+                    show
+                    variant="warning"
+                    v-if="warning"
+                    v-text="warning"/>
+            </b-form-group>
+            <b-form-group
+                label="Confirm New Password">
+                <b-form-input
+                    v-model="confirmPassword"
+                    type="password"
+                    placeholder="Confirm your new password"
+                    autocomplete="off"
+                    required/>
+            </b-form-group>
+
+            <b-alert
+                class="error-text mt-4"
+                show
+                variant="danger"
+                v-if="error"
+                v-text="error"/>
+
+            <b-alert
+                class="error-text mt-4"
+                show
+                variant="danger"
+                v-if="validateError"
+                v-text="validateError"/>
+
+            <center>
+                <b-button
+                    class="mt-2"
+                    variant="primary"
+                    type="submit">
+                    Submit
+                </b-button>
+            </center>
+        </b-form>
+    </b-card>
+</template>
+
+<script>
+import Password from 'vue-password-strength-meter';
+
+import { mapActions, mapState } from "vuex";
+
+export default {
+    name: "reset",
+
+    components: {
+        Password,
+    },
+
+    data() {
+        return {
+            currentPassword: "",
+            newPassword: "",
+            confirmPassword: "",
+            score: 0,
+            suggestions: null,
+            warning: "",
+            validateError: "",
+        }
+    },
+
+    computed: {
+        ...mapState({
+            error: state => state.user.error,
+        }),
+    },
+
+    methods: {
+        ...mapActions({
+            reset: "reset",
+        }),
+
+        onSubmit(currentPassword, newPassword, confirmPassword) {
+
+            this.validateError = "";
+
+            if (newPassword == currentPassword) {
+                this.validateError = "New and current passwords are the same";
+                return;
+            }
+
+            if (newPassword != confirmPassword) {
+                this.validateError = "New password does not match confirm password";
+                return;
+            }
+
+            if (this.score < 2) {
+                this.validateError = "Your new password is not complex enough";
+                return;
+            }
+
+            this.reset({
+                currentPassword,
+                newPassword,
+            }).then(() => {
+                this.$router.push({ name: "home" });
+            }).catch(() => {});
+        },
+
+        showFeedback ({suggestions, warning}) {
+            this.suggestions = suggestions;
+            this.warning = warning;
+        },
+
+        setScore(score) {
+            this.score = score;
+        },
+    },
+}
+</script>
+
+<style scoped>
+.reset-form {
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+</style>

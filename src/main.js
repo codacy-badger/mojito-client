@@ -12,12 +12,12 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 
 import NotFound from "@/views/NotFound";
 import Home from "@/views/Home";
-import Login from "@/views/Login";
-import Logout from "@/views/Logout";
-import Signup from "@/views/Signup";
-import Recover from "@/views/Recover";
-import RecoverReset from "@/views/RecoverReset";
-import Reset from "@/views/Reset";
+import Login from "@/views/login/Login";
+import Logout from "@/views/logout/Logout";
+import Signup from "@/views/signup/Signup";
+import Recover from "@/views/recover/Recover";
+import RecoverReset from "@/views/recover/RecoverReset";
+import Reset from "@/views/reset/Reset";
 
 // install VueJS plugins
 Vue.use(BootstrapVue);
@@ -37,6 +37,26 @@ axios.interceptors.request.use(function(config) {
     }
     return config;
 }, function(error) {
+    return Promise.reject(error);
+});
+
+// add interceptor to refresh the user's access token, if the access token
+// cannot be refreshed redirect the user to the login page
+axios.interceptors.response.use(null, error => {
+    if (router.currentRoute?.name && router.currentRoute.name == "login") {
+        return Promise.reject(error);
+    }
+    if (error.config && error.response && error.response.status === 401) {
+        return new Promise((resolve, reject) => {
+            store.dispatch("refresh").then(() => {
+                error.config.__isRetryRequest = true;
+                resolve(axios(error.config));
+            }).catch(() => {
+                router.push({ name: "login" });
+                reject(error);
+            });
+        });
+    }
     return Promise.reject(error);
 });
 
