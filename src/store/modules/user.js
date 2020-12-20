@@ -73,11 +73,6 @@ const getters = {
         return !!state.accessToken && !!state.refreshToken;
     },
 
-    // isLoading checks if the user store is currently loading data.
-    isLoading() {
-        return state.loading;
-    },
-
     // getAccessToken retrieves the user access token.
     getAccessToken() {
 
@@ -209,6 +204,28 @@ const actions = {
         let promise = axios.post("/signup", {
             email: email,
             password: password,
+        });
+
+        promise.then(() => {
+            commit("setLoading", false);
+        }).catch(error => {
+            commit("setError", error.response?.data);
+            commit("setLoading", false);
+        });
+
+        return promise;
+
+    },
+
+    // signupVerify confirms that a user has access to the email address that
+    // they supplied during signup.
+    signupVerify({ commit }, {token}) {
+
+        commit("setError", null);
+        commit("setLoading", true);
+
+        let promise = axios.post("/signup/verify", {
+            token: token,
         });
 
         promise.then(() => {

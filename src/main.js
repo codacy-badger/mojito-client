@@ -15,6 +15,7 @@ import Home from "@/views/Home";
 import Login from "@/views/login/Login";
 import Logout from "@/views/logout/Logout";
 import Signup from "@/views/signup/Signup";
+import SignupVerify from "@/views/signup/SignupVerify";
 import Recover from "@/views/recover/Recover";
 import RecoverReset from "@/views/recover/RecoverReset";
 import Reset from "@/views/reset/Reset";
@@ -78,6 +79,11 @@ const router = new Router({
             path: "/signup",
             name: "signup",
             component: Signup,
+        },
+        {
+            path: "/signup/verify",
+            name: "signup-verify",
+            component: SignupVerify,
         },
         {
             path: "/recover",

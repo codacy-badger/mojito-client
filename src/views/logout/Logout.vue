@@ -7,7 +7,7 @@
             <h2>Log Out</h2>
         </template>
 
-        <center v-if="isLoading || isLoggedIn">
+        <center v-if="loading || isLoggedIn">
             <b-spinner variant="primary" label="Spinning"></b-spinner><br><br>
             <p>
                 You are being logged out...
@@ -25,13 +25,18 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
 
 export default {
     name: "logout",
 
     computed: {
-        ...mapGetters(["isLoggedIn", "isLoading"]),
+        ...mapState({
+            loading: state => state.user.loading,
+        }),
+        ...mapGetters([
+            "isLoggedIn",
+        ]),
     },
 
     mounted() {
