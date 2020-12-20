@@ -40,6 +40,14 @@ const mutations = {
 
     // setError sets the error message for the store.
     setError(state, payload) {
+
+        // if payload is empty or null clear the error message
+        if (!payload) {
+            state.error = null;
+            return;
+        }
+
+        // set the error message
         state.error = payload?.error ? payload.error :
             "we were unable to service your request at this time, please try again later";
     },
@@ -99,6 +107,7 @@ const actions = {
     // login logs the user in with the supplied credentials.
     login({ commit }, {email, password}) {
 
+        commit("setError", null);
         commit("setLoading", true);
 
         let promise = axios.post("/login", {
@@ -121,6 +130,7 @@ const actions = {
     // refresh gets fresh user credentials.
     refresh({ commit }) {
 
+        commit("setError", null);
         commit("setLoading", true);
 
         let promise = axios.post("/refresh", {
@@ -142,6 +152,8 @@ const actions = {
     // logout clears the user credentials.
     logout({ commit }) {
 
+        commit("setError", null);
+
         if (getters.isLoggedIn()) {
 
             // if the user is logged in make a call to the logout endpoint to
@@ -152,9 +164,8 @@ const actions = {
             .then(() => {
                 commit("reset");
                 commit("setLoading", false);
-            }).catch(error => {
+            }).catch(() => {
                 commit("reset");
-                commit("setError", error.response?.data);
                 commit("setLoading", false);
             });
 
@@ -170,6 +181,7 @@ const actions = {
     // reset changes the logged in user's password.
     reset({ commit }, {currentPassword, newPassword}) {
 
+        commit("setError", null);
         commit("setLoading", true);
 
         let promise = axios.post("/reset", {
@@ -188,6 +200,27 @@ const actions = {
 
     },
 
+    // signup creates a new user account.
+    signup({ commit }, {email, password}) {
+
+        commit("setError", null);
+        commit("setLoading", true);
+
+        let promise = axios.post("/signup", {
+            email: email,
+            password: password,
+        });
+
+        promise.then(() => {
+            commit("setLoading", false);
+        }).catch(error => {
+            commit("setError", error.response?.data);
+            commit("setLoading", false);
+        });
+
+        return promise;
+
+    },
 };
 
 export default {

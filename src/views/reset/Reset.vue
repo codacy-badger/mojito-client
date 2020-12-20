@@ -7,7 +7,7 @@
             <h2>Reset Password</h2>
         </template>
 
-        <b-form @submit.prevent="onSubmit(currentPassword, newPassword, confirmPassword)">
+        <b-form @submit.prevent="onSubmit(currentPassword, newPassword, confirmPassword)" v-if="!passwordReset">
             <b-form-group
                 label="Current Password">
                 <b-form-input
@@ -15,7 +15,8 @@
                     type="password"
                     placeholder="Enter your current password"
                     autocomplete="off"
-                    required/>
+                    required
+                    :disabled="loading"/>
             </b-form-group>
             <b-form-group
                 label="New Password">
@@ -24,7 +25,8 @@
                     type="password"
                     placeholder="Enter your new password"
                     autocomplete="off"
-                    required/>
+                    required
+                    :disabled="loading"/>
                 <password
                     v-model="newPassword"
                     :strength-meter-only="true"
@@ -49,32 +51,46 @@
                     type="password"
                     placeholder="Confirm your new password"
                     autocomplete="off"
-                    required/>
+                    required
+                    :disabled="loading"/>
             </b-form-group>
-
-            <b-alert
-                class="error-text mt-4"
-                show
-                variant="danger"
-                v-if="error"
-                v-text="error"/>
-
             <b-alert
                 class="error-text mt-4"
                 show
                 variant="danger"
                 v-if="validateError"
                 v-text="validateError"/>
-
             <center>
                 <b-button
                     class="mt-2"
                     variant="primary"
-                    type="submit">
+                    type="submit"
+                    :disabled="loading">
                     Submit
                 </b-button>
             </center>
+            <center class="mt-4" v-if="loading">
+                <b-spinner variant="primary" label="Spinning"></b-spinner><br><br>
+                <p>
+                    Resetting your password...
+                </p>
+            </center>
         </b-form>
+
+        <center v-else>
+            <p>
+                Your password has been reset!<br><br>
+                <a href="/home">Click here</a> to return to the home page.
+            </p>
+        </center>
+
+        <b-alert
+            class="error-text mt-4"
+            show
+            variant="danger"
+            v-if="error"
+            v-text="error"/>
+
     </b-card>
 </template>
 
@@ -99,12 +115,14 @@ export default {
             suggestions: null,
             warning: "",
             validateError: "",
+            passwordReset: false,
         }
     },
 
     computed: {
         ...mapState({
             error: state => state.user.error,
+            loading: state => state.user.loading,
         }),
     },
 
@@ -136,7 +154,7 @@ export default {
                 currentPassword,
                 newPassword,
             }).then(() => {
-                this.$router.push({ name: "home" });
+                this.passwordReset = true;
             }).catch(() => {});
         },
 

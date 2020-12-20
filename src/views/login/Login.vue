@@ -14,7 +14,8 @@
                     type="email"
                     placeholder="Enter your email"
                     autocomplete="on"
-                    required/>
+                    required
+                    :disabled="loading"/>
             </b-form-group>
             <b-form-group label="Password">
                 <b-form-input
@@ -22,15 +23,23 @@
                     type="password"
                     placeholder="Enter your password"
                     autocomplete="on"
-                    required/>
+                    required
+                    :disabled="loading"/>
             </b-form-group>
             <center>
                 <b-button
                     class="mt-2"
                     variant="primary"
-                    type="submit">
+                    type="submit"
+                    :disabled="loading">
                     Submit
                 </b-button>
+            </center>
+            <center class="mt-4" v-if="loading">
+                <b-spinner variant="primary" label="Spinning"></b-spinner><br><br>
+                <p>
+                    Logging you in...
+                </p>
             </center>
         </b-form>
 
@@ -72,6 +81,7 @@ export default {
     computed: {
         ...mapState({
             error: state => state.user.error,
+            loading: state => state.user.loading,
         }),
     },
 

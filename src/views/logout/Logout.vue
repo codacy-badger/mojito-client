@@ -13,10 +13,13 @@
                 You are being logged out...
             </p>
         </center>
-        <p v-else>
-            You have successfully been logged out!<br><br>
-            <a href="/login">Click here</a> to return to the login page.
-        </p>
+
+        <center v-else>
+            <p>
+                You have successfully been logged out!<br><br>
+                <a href="/login">Click here</a> to return to the login page.
+            </p>
+        </center>
 
     </b-card>
 </template>
