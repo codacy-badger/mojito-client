@@ -238,6 +238,51 @@ const actions = {
         return promise;
 
     },
+
+    // recover initiates the account recovery process.
+    recover({ commit }, {email}) {
+
+        commit("setError", null);
+        commit("setLoading", true);
+
+        let promise = axios.post("/recover", {
+            email: email,
+        });
+
+        promise.then(() => {
+            commit("setLoading", false);
+        }).catch(error => {
+            commit("setError", error.response?.data);
+            commit("setLoading", false);
+        });
+
+        return promise;
+
+    },
+
+    // recoverReset confirms that a user has access to the email address of the
+    // account that they are trying to recover and resets the account password.
+    recoverReset({ commit }, {token, password}) {
+
+        commit("setError", null);
+        commit("setLoading", true);
+
+        let promise = axios.post("/recover/reset", {
+            token: token,
+            password: password,
+        });
+
+        promise.then(() => {
+            commit("setLoading", false);
+        }).catch(error => {
+            commit("setError", error.response?.data);
+            commit("setLoading", false);
+        });
+
+        return promise;
+
+    },
+
 };
 
 export default {
