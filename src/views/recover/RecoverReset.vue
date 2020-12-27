@@ -52,8 +52,8 @@
                 class="error-text mt-4"
                 show
                 variant="danger"
-                v-if="validationError"
-                v-text="validationError"/>
+                v-if="validateError"
+                v-text="validateError"/>
             <center>
                 <b-button
                     class="mt-2"
@@ -82,7 +82,7 @@
             class="error-text mt-4"
             show
             variant="danger"
-            v-if="validationError && recoveryFailed"
+            v-if="validateError && recoveryFailed"
             v-text="validationError"/>
 
         <b-alert
@@ -129,7 +129,7 @@ export default {
 
     mounted() {
         if (!this.$route.query.token) {
-            this.validationError = "recovery token not found";
+            this.validateError = "recovery token not found";
             this.recoveryFailed = true;
             return;
         }
