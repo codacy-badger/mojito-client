@@ -6,14 +6,10 @@ const ACCESS_TOKEN_KEY = "jwt_access";
 // defines the key used to access the JWT refresh token from local storage.
 const REFRESH_TOKEN_KEY = "jwt_refresh";
 
-// defines the key used to access permissions from local storge.
-const PERMISSIONS_KEY = "permissions";
-
 // initial state
 const state = ({
     accessToken: null,
     refreshToken: null,
-    permissions: null,
     error: null,
     loading: false,
 });
@@ -24,14 +20,12 @@ const mutations = {
     reset(state) {
         state.accessToken = null;
         state.refreshToken = null;
-        state.permissions = null;
         state.error = null;
         state.loading = false;
 
         // remove the tokens from local storage
         localStorage.removeItem(ACCESS_TOKEN_KEY);
         localStorage.removeItem(REFRESH_TOKEN_KEY);
-        localStorage.removeItem(PERMISSIONS_KEY);
     },
 
     // setAuth sets the JWT access and refresh tokens.
@@ -43,17 +37,6 @@ const mutations = {
 
         localStorage.setItem(ACCESS_TOKEN_KEY, state.accessToken);
         localStorage.setItem(REFRESH_TOKEN_KEY, state.refreshToken);
-
-        // set permissions and add to local storage
-        state.permissions = new Set();
-
-        if (Array.isArray(payload.permissions) && payload.permissions.length) {
-            payload.permissions.forEach(item => {
-                state.permissions.add(item);
-            });
-
-            localStorage.setItem(PERMISSIONS_KEY, JSON.stringify(payload.permissions));
-        }
     },
 
     // setError sets the error message for the store.
@@ -111,34 +94,6 @@ const getters = {
         }
 
         return state.refreshToken;
-    },
-
-    // hasPermission returns a function that can be used to check if the user
-    // has a specific permission.
-    hasPermission() {
-        return (permission) => {
-
-            // if the permissions are blank attempt to set them from local
-            // storage
-            if (!state.permissions) {
-                state.permissions = new Set();
-                let permissions = JSON.parse(localStorage.getItem(PERMISSIONS_KEY));
-
-                if (Array.isArray(permissions) && permissions.length) {
-                    permissions.forEach(item => {
-                        state.permissions.add(item);
-                    });
-                }
-            }
-
-            // if permissions are still blank return that the user does not have
-            // the specified permission
-            if (!state.permissions) {
-                return false;
-            }
-
-            return state.permissions.has(permission);
-        };
     },
 
 };
