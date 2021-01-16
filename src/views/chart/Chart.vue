@@ -6,7 +6,8 @@
             <b-form-group
                 label="Exchange"
                 placeholder="Select an exchange"
-                required>
+                required
+                :disabled="loading">
                 <b-form-select
                     v-model="selectedExchange"
                     :options="exchangeOptions"
@@ -19,10 +20,9 @@
                 <b-form-select
                     v-model="selectedTicker"
                     :options="tickerOptions"
-                    :disabled="!selectedExchange"
+                    :disabled="!selectedExchange || loading"
                 ></b-form-select>
             </b-form-group>
-            <hr>
             <b-alert
                 class="error-text mt-4"
                 show
@@ -38,6 +38,19 @@
             </b-button>
         </b-form>
 
+        <div v-if="chartData">
+            <hr ref="chartRule">
+            <div class="chart-container">
+                <trading-vue
+                    :data="chartData"
+                    :width="chartData.width-3"
+                    :color-back="chartData.colors.background"
+                    :color-grid="chartData.colors.grid"
+                    :color-text="chartData.colors.text"
+                ></trading-vue>
+            </div>
+        </div>
+
         <b-alert
             class="error-text mt-4"
             show
@@ -48,13 +61,20 @@
 </template>
 
 <script>
+import TradingVue from 'trading-vue-js'
+
 import { mapState, mapGetters, mapActions } from "vuex";
 
 export default {
     name: "chart",
 
+    components: {
+        TradingVue,
+    },
+
     data() {
         return {
+            chartData: null,
             selectedExchange: null,
             selectedTicker: null,
             validateError: "",
@@ -113,7 +133,16 @@ export default {
     },
 
     mounted() {
+        window.addEventListener('resize', this.onResize);
         this.loadCandlestickSpec();
+
+        window.setInterval(() => {
+            this.updateCandlesticks()
+        }, 60000)
+    },
+
+    beforeDestroy() {
+        window.removeEventListener('resize', this.onResize);
     },
 
     methods: {
@@ -121,6 +150,12 @@ export default {
             loadCandlestickSpec: "loadCandlestickSpec",
             loadCandlesticks: "loadCandlesticks",
         }),
+
+        onResize() {
+            if (this.$refs.chartRule && this.chartData) {
+                this.chartData.width = this.$refs.chartRule.clientWidth;
+            }
+        },
 
         onSubmit() {
 
@@ -140,12 +175,70 @@ export default {
                 exchange: this.selectedExchange,
                 ticker: this.selectedTicker,
             }).then(() => {
-                this.updateCharts();
+                this.updateChart(this.selectedExchange, this.selectedTicker);
             }).catch(() => {});
         },
 
-        updateCharts() {
-            // TODO: build charts from candlestick data
+        updateCandlesticks() {
+            if (!this.chartData || !this.chartData.exchange || !this.chartData.ticker ) {
+                return;
+            }
+
+            let exchange = this.chartData.exchange;
+            let ticker = this.chartData.ticker;
+
+            this.loadCandlesticks({
+                exchange,
+                ticker,
+            }).then(() => {
+                this.updateChart(exchange, ticker);
+            }).catch(() => {});
+        },
+
+        updateChart(exchange, ticker) {
+            this.chart = null;
+
+            if (!this.candlesticks) {
+                return;
+            }
+
+            let data = [];
+
+            this.candlesticks.forEach(function (item) {
+                data.push([
+                    Date.parse(item.created_at),
+                    item.open,
+                    item.high,
+                    item.low,
+                    item.close,
+                    item.volume,
+                ]);
+            });
+
+            if (data.length == 0) {
+                this.validateError = "No price data found for this ticker.";
+                return;
+            }
+
+            this.chartData = {
+                exchange: exchange,
+                ticker: ticker,
+                width: 0,
+                chart: {
+                    name: `${exchange} - ${ticker}`,
+                    type: "Candles",
+                    data: data,
+                },
+                colors: {
+                    background: '#fff',
+                    grid: '#eee',
+                    text: '#333',
+                },
+            };
+
+            this.$nextTick(function () {
+                this.onResize();
+            });
         },
     },
 }
@@ -154,5 +247,9 @@ export default {
 <style scoped>
 .section {
     margin: 1.5%;
+}
+
+.chart-container {
+    border: 1px solid black;
 }
 </style>
