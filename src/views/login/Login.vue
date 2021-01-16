@@ -1,6 +1,6 @@
 <template>
     <b-card
-        class="login-form mt-4"
+        class="centered-form mt-4"
         bg-variant="light">
 
         <template slot="header">
@@ -106,11 +106,3 @@ export default {
     },
 }
 </script>
-
-<style scoped>
-.login-form {
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-}
-</style>

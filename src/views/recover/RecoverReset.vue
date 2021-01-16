@@ -1,6 +1,6 @@
 <template>
     <b-card
-        class="recover-reset-form mt-4"
+        class="centered-form mt-4"
         bg-variant="light">
 
         <template slot="header">
@@ -83,7 +83,7 @@
             show
             variant="danger"
             v-if="validateError && recoveryFailed"
-            v-text="validationError"/>
+            v-text="validateError"/>
 
         <b-alert
             class="error-text mt-4"
@@ -175,11 +175,3 @@ export default {
     },
 }
 </script>
-
-<style scoped>
-.recover-reset-form {
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-}
-</style>

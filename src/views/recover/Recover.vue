@@ -1,6 +1,6 @@
 <template>
     <b-card
-        class="recover-form mt-4"
+        class="centered-form mt-4"
         bg-variant="light">
         <template slot="header">
             <h2>Recover Account</h2>
@@ -117,11 +117,3 @@ export default {
     },
 }
 </script>
-
-<style scoped>
-.recover-form {
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-}
-</style>
