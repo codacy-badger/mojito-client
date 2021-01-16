@@ -20,6 +20,7 @@ import Recover from "@/views/recover/Recover";
 import RecoverReset from "@/views/recover/RecoverReset";
 import Reset from "@/views/reset/Reset";
 import Settings from "@/views/settings/Settings";
+import Chart from "@/views/chart/Chart";
 
 // install VueJS plugins
 Vue.use(BootstrapVue);
@@ -114,6 +115,12 @@ const router = new Router({
                     meta: { secure: true },
                 },
             ],
+        },
+        {
+            path: "/chart",
+            name: "chart",
+            component: Chart,
+            meta: { secure: true },
         },
         {
             path: "/settings",

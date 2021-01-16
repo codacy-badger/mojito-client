@@ -101,7 +101,7 @@ const getters = {
 const actions = {
 
     // login logs the user in with the supplied credentials.
-    login({ commit }, {email, password}) {
+    login({ commit }, { email, password }) {
 
         commit("setError", null);
         commit("setLoading", true);
@@ -175,7 +175,7 @@ const actions = {
     },
 
     // reset changes the logged in user's password.
-    reset({ commit }, {currentPassword, newPassword}) {
+    reset({ commit }, { currentPassword, newPassword }) {
 
         commit("setError", null);
         commit("setLoading", true);
@@ -197,7 +197,7 @@ const actions = {
     },
 
     // signup creates a new user account.
-    signup({ commit }, {email, password}) {
+    signup({ commit }, { email, password }) {
 
         commit("setError", null);
         commit("setLoading", true);
@@ -220,7 +220,7 @@ const actions = {
 
     // signupVerify confirms that a user has access to the email address that
     // they supplied during signup.
-    signupVerify({ commit }, {token}) {
+    signupVerify({ commit }, { token }) {
 
         commit("setError", null);
         commit("setLoading", true);
@@ -241,7 +241,7 @@ const actions = {
     },
 
     // recover initiates the account recovery process.
-    recover({ commit }, {email}) {
+    recover({ commit }, { email }) {
 
         commit("setError", null);
         commit("setLoading", true);
@@ -263,7 +263,7 @@ const actions = {
 
     // recoverReset confirms that a user has access to the email address of the
     // account that they are trying to recover and resets the account password.
-    recoverReset({ commit }, {token, password}) {
+    recoverReset({ commit }, { token, password }) {
 
         commit("setError", null);
         commit("setLoading", true);

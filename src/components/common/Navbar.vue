@@ -12,6 +12,11 @@
                 <b-icon icon="house-door"></b-icon>
             </b-nav-item>
             <b-tooltip target="home-button">Home</b-tooltip>
+            <!-- chart page -->
+            <b-nav-item id="chart-button" href="/chart" class="ml-2">
+                <b-icon icon="graph-up"></b-icon>
+            </b-nav-item>
+            <b-tooltip target="chart-button">Chart</b-tooltip>
             <!-- settings page -->
             <b-nav-item id="settings-button" href="/settings" class="ml-2">
                 <b-icon icon="gear"></b-icon>
