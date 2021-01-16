@@ -7,20 +7,25 @@
         </b-navbar-brand>
         <!-- display navigation links -->
         <b-navbar-nav class="ml-auto" v-if="isLoggedIn">
+            <!-- home page -->
             <b-nav-item id="home-button" href="/home" class="ml-2">
-                <!-- home page -->
                 <b-icon icon="house-door"></b-icon>
             </b-nav-item>
             <b-tooltip target="home-button">Home</b-tooltip>
+            <!-- settings page -->
+            <b-nav-item id="settings-button" href="/settings" class="ml-2">
+                <b-icon icon="gear"></b-icon>
+            </b-nav-item>
+            <b-tooltip target="settings-button">Settings</b-tooltip>
+            <!-- logout -->
             <b-nav-item id="logout-button" href="/logout" class="ml-2">
-                <!-- logout -->
                 <b-icon icon="door-open"></b-icon>
             </b-nav-item>
             <b-tooltip target="logout-button">Log Out</b-tooltip>
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto" v-else>
+            <!-- logout -->
             <b-nav-item id="login-button" href="/login" class="ml-2">
-                <!-- logout -->
                 <b-icon icon="door-closed"></b-icon>
             </b-nav-item>
             <b-tooltip target="login-button">Log In</b-tooltip>

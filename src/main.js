@@ -19,6 +19,7 @@ import SignupVerify from "@/views/signup/SignupVerify";
 import Recover from "@/views/recover/Recover";
 import RecoverReset from "@/views/recover/RecoverReset";
 import Reset from "@/views/reset/Reset";
+import Settings from "@/views/settings/Settings";
 
 // install VueJS plugins
 Vue.use(BootstrapVue);
@@ -113,6 +114,12 @@ const router = new Router({
                     meta: { secure: true },
                 },
             ],
+        },
+        {
+            path: "/settings",
+            name: "settings",
+            component: Settings,
+            meta: { secure: true },
         },
         {
             path: "/not-found",
