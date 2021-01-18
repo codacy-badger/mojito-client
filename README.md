@@ -1,5 +1,7 @@
 # Mojito Client
 
+![codeql workflow](https://github.com/bsladewski/mojito-client/workflows/CodeQL/badge.svg)
+
 The frontend for the Mojito web application. Mojito is a tool for analyzing cryptocurrency prices and configuring bots to automate or assist with trading strategies.
 
 # Dependencies
