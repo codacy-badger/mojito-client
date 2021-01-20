@@ -8,7 +8,7 @@ The frontend for the Mojito web application. Mojito is a tool for analyzing cryp
 
 This project uses [Node.js](https://nodejs.org/en/docs/guides/getting-started-guide/).
 
-Additional dependencies are managed through [NPM](https://docs.npmjs.com/getting-started).
+Additional dependencies are managed through [Yarn](https://yarnpkg.com/getting-started).
 
 # Usage
 
