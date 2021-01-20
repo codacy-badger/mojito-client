@@ -18,10 +18,14 @@ To get started, clone the repository:
 
 `$ git clone https://github.com/bsladewski/mojito-client`
 
-Use `npm` to install project dependencies:
+Use `yarn` to install or update project dependencies:
 
 ```
-$ npm install
+$ yarn install
+```
+
+```
+$ yarn upgrade
 ```
 
 ## Running For Development
