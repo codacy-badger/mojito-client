@@ -16,7 +16,9 @@ Additional dependencies are managed through [Yarn](https://yarnpkg.com/getting-s
 
 To get started, clone the repository:
 
-`$ git clone https://github.com/bsladewski/mojito-client`
+```
+$ git clone https://github.com/bsladewski/mojito-client
+```
 
 Use `yarn` to install or update project dependencies:
 
