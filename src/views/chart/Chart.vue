@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import TradingVue from 'trading-vue-js'
+import TradingVue from "trading-vue-js";
 
 import { mapState, mapGetters, mapActions } from "vuex";
 
@@ -83,9 +83,9 @@ export default {
 
     computed: {
         ...mapState({
-            candlesticks: state => state.candlestick.candlesticks,
-            error: state => state.candlestick.error,
-            loading: state => state.candlestick.loading,
+            candlesticks: (state) => state.candlestick.candlesticks,
+            error: (state) => state.candlestick.error,
+            loading: (state) => state.candlestick.loading,
         }),
 
         ...mapGetters([
@@ -133,16 +133,16 @@ export default {
     },
 
     mounted() {
-        window.addEventListener('resize', this.onResize);
+        window.addEventListener("resize", this.onResize);
         this.loadCandlestickSpec();
 
         window.setInterval(() => {
-            this.updateCandlesticks()
-        }, 60000)
+            this.updateCandlesticks();
+        }, 60000);
     },
 
     beforeDestroy() {
-        window.removeEventListener('resize', this.onResize);
+        window.removeEventListener("resize", this.onResize);
     },
 
     methods: {
@@ -215,24 +215,24 @@ export default {
                 ]);
             });
 
-            if (data.length == 0) {
+            if (data.length === 0) {
                 this.validateError = "No price data found for this ticker.";
                 return;
             }
 
             this.chartData = {
-                exchange: exchange,
-                ticker: ticker,
+                exchange,
+                ticker,
                 width: 0,
                 chart: {
                     name: `${exchange} - ${ticker}`,
                     type: "Candles",
-                    data: data,
+                    data,
                 },
                 colors: {
-                    background: '#fff',
-                    grid: '#eee',
-                    text: '#333',
+                    background: "#fff",
+                    grid: "#eee",
+                    text: "#333",
                 },
             };
 
@@ -241,7 +241,7 @@ export default {
             });
         },
     },
-}
+};
 </script>
 
 <style scoped>

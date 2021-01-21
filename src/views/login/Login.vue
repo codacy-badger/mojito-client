@@ -80,8 +80,8 @@ export default {
 
     computed: {
         ...mapState({
-            error: state => state.user.error,
-            loading: state => state.user.loading,
+            error: (state) => state.user.error,
+            loading: (state) => state.user.loading,
         }),
     },
 
@@ -104,5 +104,5 @@ export default {
             }).catch(() => {});
         },
     },
-}
+};
 </script>

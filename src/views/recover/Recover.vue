@@ -79,13 +79,13 @@ export default {
         return {
             email: "",
             recoveryEmailSent: false,
-        }
+        };
     },
 
     computed: {
         ...mapState({
-            error: state => state.user.error,
-            loading: state => state.user.loading,
+            error: (state) => state.user.error,
+            loading: (state) => state.user.loading,
         }),
     },
 
@@ -115,5 +115,5 @@ export default {
         },
 
     },
-}
+};
 </script>

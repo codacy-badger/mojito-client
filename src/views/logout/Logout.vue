@@ -32,7 +32,7 @@ export default {
 
     computed: {
         ...mapState({
-            loading: state => state.user.loading,
+            loading: (state) => state.user.loading,
         }),
         ...mapGetters([
             "isLoggedIn",
@@ -50,6 +50,5 @@ export default {
             logout: "logout",
         }),
     },
-
-}
+};
 </script>

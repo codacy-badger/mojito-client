@@ -110,7 +110,7 @@
 </template>
 
 <script>
-import Password from 'vue-password-strength-meter';
+import Password from "vue-password-strength-meter";
 
 import { mapActions, mapState } from "vuex";
 
@@ -131,13 +131,13 @@ export default {
             warning: "",
             validateError: "",
             accountCreated: false,
-        }
+        };
     },
 
     computed: {
         ...mapState({
-            error: state => state.user.error,
-            loading: state => state.user.loading,
+            error: (state) => state.user.error,
+            loading: (state) => state.user.loading,
         }),
     },
 
@@ -150,7 +150,7 @@ export default {
 
             this.validateError = "";
 
-            if (password != confirmPassword) {
+            if (password !== confirmPassword) {
                 this.validateError = "Password does not match confirm password";
                 return;
             }
@@ -190,5 +190,5 @@ export default {
             this.score = score;
         },
     },
-}
+};
 </script>
