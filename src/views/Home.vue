@@ -24,7 +24,7 @@ export default {
             if (widgetType in Widgets) {
                 WidgetClass = Vue.extend(Widgets.AddWidget);
             } else {
-                console.error("No such widget '"+ widgetType +"'");
+                console.error(`No such widget '${widgetType}'`);
                 return;
             }
 
@@ -39,5 +39,5 @@ export default {
         },
 
     },
-}
+};
 </script>

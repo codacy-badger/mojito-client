@@ -82,7 +82,7 @@ const getters = {
             let tickers = [];
 
             state.spec.exchanges.forEach(function (item) {
-                if (item.id == exchange) {
+                if (item.id === exchange) {
                     item.tickers.forEach(function (item) {
                         tickers.push({ id: item.id, name: item.name });
                     });
@@ -107,10 +107,10 @@ const actions = {
 
         let promise = axios.get("/candlestick/spec");
 
-        promise.then(response => {
+        promise.then((response) => {
             commit("setSpec", response.data);
             commit("setLoading", false);
-        }).catch(error => {
+        }).catch((error) => {
             commit("setError", error.response?.data);
             commit("setLoading", false);
         })
@@ -128,10 +128,10 @@ const actions = {
         let promise = axios.get(
             `/candlestick/exchange/${exchange}/ticker/${ticker}`);
 
-        promise.then(response => {
+        promise.then((response) => {
             commit("setCandlesticks", response.data);
             commit("setLoading", false);
-        }).catch(error => {
+        }).catch((error) => {
             commit("setError", error.response?.data);
             commit("setLoading", false);
         })

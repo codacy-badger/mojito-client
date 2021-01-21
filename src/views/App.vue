@@ -11,11 +11,12 @@
 import Navbar from "@/components/common/Navbar.vue";
 
 export default {
-  name: "App",
-  components: {
-    Navbar,
-  },
-}
+    name: "App",
+
+    components: {
+        Navbar,
+    },
+};
 </script>
 
 <style lang="scss">

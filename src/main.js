@@ -1,5 +1,5 @@
 import Vue from "vue";
-import Router from 'vue-router';
+import Router from "vue-router";
 import axios from "axios";
 
 import App from "@/views/App.vue";
@@ -26,46 +26,10 @@ import Chart from "@/views/chart/Chart";
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
 Vue.use(Router);
-Vue.config.productionTip = false;
-
-// set base API URL for axios
-axios.defaults.baseURL = process.env.VUE_APP_BASE_API_URL ||
-    "https://mojitobot.com/api"
-
-// add interceptor for setting the auth token when making API requests
-axios.interceptors.request.use(function(config) {
-    let accessToken = store.getters.getAccessToken;
-    if (accessToken) {
-        config.headers["Authorization"] = `Bearer ${accessToken}`;
-    }
-    return config;
-}, function(error) {
-    return Promise.reject(error);
-});
-
-// add interceptor to refresh the user's access token, if the access token
-// cannot be refreshed redirect the user to the login page
-axios.interceptors.response.use(null, error => {
-    if (router.currentRoute?.name && router.currentRoute.name == "login") {
-        return Promise.reject(error);
-    }
-    if (error.config && error.response && error.response.status === 401) {
-        return new Promise((resolve, reject) => {
-            store.dispatch("refresh").then(() => {
-                error.config.__isRetryRequest = true;
-                resolve(axios(error.config));
-            }).catch(() => {
-                router.push({ name: "login" });
-                reject(error);
-            });
-        });
-    }
-    return Promise.reject(error);
-});
 
 // define application router
 const router = new Router({
-    mode: 'history',
+    mode: "history",
     routes: [
         {
             path: "/login",
@@ -142,9 +106,44 @@ const router = new Router({
     ],
 });
 
+// set base API URL for axios
+axios.defaults.baseURL = process.env.VUE_APP_BASE_API_URL ||
+    "https://mojitobot.com/api";
+
+// add interceptor for setting the auth token when making API requests
+axios.interceptors.request.use(function(config) {
+    let accessToken = store.getters.getAccessToken;
+    if (accessToken) {
+        config.headers["Authorization"] = `Bearer ${accessToken}`;
+    }
+    return config;
+}, function(error) {
+    return Promise.reject(error);
+});
+
+// add interceptor to refresh the user's access token, if the access token
+// cannot be refreshed redirect the user to the login page
+axios.interceptors.response.use(null, (error) => {
+    if (router.currentRoute?.name && router.currentRoute.name === "login") {
+        return Promise.reject(error);
+    }
+    if (error.config && error.response && error.response.status === 401) {
+        return new Promise((resolve, reject) => {
+            store.dispatch("refresh").then(() => {
+                error.config.__isRetryRequest = true;
+                resolve(axios(error.config));
+            }).catch(() => {
+                router.push({ name: "login" });
+                reject(error);
+            });
+        });
+    }
+    return Promise.reject(error);
+});
+
 // require credentials for secure pages
 router.beforeEach((to, _, next) => {
-    if (to.matched.some(record => record.meta.secure) &&
+    if (to.matched.some((record) => record.meta.secure) &&
         !store.getters.isLoggedIn) {
         next("/login");
     } else {
@@ -156,5 +155,5 @@ router.beforeEach((to, _, next) => {
 new Vue({
     router,
     store,
-    render: h => h(App),
+    render: (h) => h(App),
 }).$mount("#app");
